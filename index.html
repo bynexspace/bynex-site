@@ -483,11 +483,17 @@
     .cdp .phone{width:220px;height:440px}
     .svc-cards{gap:8px}
   }
+  /* pizza loader */
+  .mv-wrap .mv-load{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.10),rgba(255,255,255,.03) 70%);transition:opacity .4s}
+  .mv-wrap .mv-load span{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(247,244,236,.12);border-top-color:rgba(247,244,236,.55);animation:mvspin 1s linear infinite}
+  .mv-wrap.loaded .mv-load{opacity:0;visibility:hidden}
+  @keyframes mvspin{to{transform:rotate(360deg)}}
   /* redes sociais */
   .social{display:flex;gap:10px;margin-top:22px}
   .social a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,254,255,.18);display:grid;place-items:center;color:#fff;transition:background .2s,color .2s,border-color .2s}
   .social a:hover{background:#fff;color:#0B0B10;border-color:#fff}
 </style>
+<link rel="preconnect" href="https://cardapiei.bynexspace.com.br" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preload" as="fetch" href="https://cardapiei.bynexspace.com.br/demo/pizza-grande.glb" crossorigin>
 </head>
 <body>
 
@@ -661,7 +667,7 @@
           </ol>
           <a href="https://cardapiei.bynexspace.com.br/" target="_blank" rel="noopener" class="btn cdp-btn">Conhecer o Cardapiei <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
         </div>
-        <div class="phone" aria-hidden="true"><div class="scr"><span class="live"><i></i>AR · ao vivo</span><div class="mv-wrap"><div class="plate"></div><model-viewer id="cdpPizza" src="https://cardapiei.bynexspace.com.br/demo/pizza-grande.glb" ios-src="https://cardapiei.bynexspace.com.br/demo/pizza-grande.usdz" alt="Pizza em 3D do Cardapiei" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="24deg" camera-orbit="15deg 55deg 78%" interaction-prompt="none" shadow-intensity="1" loading="lazy" touch-action="pan-y" disable-zoom></model-viewer></div><button type="button" class="ar" id="cdpAr">Ver na mesa</button><small>Realidade Aumentada · sem app</small></div></div>
+        <div class="phone" aria-hidden="true"><div class="scr"><span class="live"><i></i>AR · ao vivo</span><div class="mv-wrap"><div class="mv-load" aria-hidden="true"><span></span></div><model-viewer id="cdpPizza" src="https://cardapiei.bynexspace.com.br/demo/pizza-grande.glb" ios-src="https://cardapiei.bynexspace.com.br/demo/pizza-grande.usdz" alt="Pizza em 3D do Cardapiei" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="24deg" camera-orbit="15deg 55deg 78%" interaction-prompt="none" shadow-intensity="1" loading="eager" reveal="auto" touch-action="pan-y" disable-zoom></model-viewer></div><button type="button" class="ar" id="cdpAr">Ver na mesa</button><small>Realidade Aumentada · sem app</small></div></div>
       </div>
     </div>
   </section>
@@ -880,6 +886,16 @@
   car.tabIndex=0; car.addEventListener('keydown',e=>{ if(e.key==='ArrowRight') go(idx+1); if(e.key==='ArrowLeft') go(idx-1); });
   addEventListener('resize',()=>go(idx,false));
   go(idx,false);
+})();
+</script>
+<script>
+(function(){
+  const mv=document.getElementById('cdpPizza'); if(!mv) return;
+  const wrap=mv.parentElement, src=mv.getAttribute('src'); let tries=0;
+  const done=()=>wrap.classList.add('loaded');
+  mv.addEventListener('load',done);
+  mv.addEventListener('error',()=>{ if(tries++<3) setTimeout(()=>{ mv.src=src+'?r='+tries; },2500*tries); });
+  customElements.whenDefined('model-viewer').then(()=>{ if(mv.loaded) done(); });
 })();
 </script>
 </body>
