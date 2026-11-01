@@ -768,7 +768,7 @@
 
   // Formulário
   // Para receber os leads, cole aqui o endereço de envio (Formspree, webhook do CRM, Google Apps Script etc.)
-  const FORM_ENDPOINT = '';
+  const FORM_ENDPOINT = 'https://formspree.io/f/mdeewzld';
   const form = document.getElementById('leadForm');
   const msg = document.getElementById('formMsg');
   form && form.addEventListener('submit', async (ev) => {
@@ -786,6 +786,8 @@
     }
     try {
       const data = Object.fromEntries(new FormData(form).entries());
+      data._subject = 'Novo lead pelo site BYNEX' + (data.interesse ? ' — ' + data.interesse : '');
+      data.pagina = location.pathname; data.idioma = LANG;
       const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) });
       if (!res.ok) throw new Error();
       form.reset();
