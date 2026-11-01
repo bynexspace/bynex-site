@@ -882,7 +882,7 @@
 (function(){
   const car=document.querySelector('.team-car'); if(!car) return;
   const track=car.querySelector('.team-track'), cards=[...track.children], dots=[...document.querySelectorAll('.team-dots button')];
-  let idx=Math.floor(cards.length/2), x=0, down=false, moved=false, sx=0, bx=0;
+  let idx=Math.max(0,cards.findIndex(c=>/Matheus/.test(c.getAttribute('aria-label')||c.textContent))), x=0, down=false, moved=false, sx=0, bx=0;
   const center=i=>car.clientWidth/2-(cards[i].offsetLeft+cards[i].offsetWidth/2);
   const set=(v,anim)=>{ track.style.transition=anim?'transform .5s cubic-bezier(.2,.8,.2,1)':'none'; x=v; track.style.transform=`translateX(${x}px)`; };
   const mark=i=>{ cards.forEach((c,k)=>c.classList.toggle('active',k===i)); dots.forEach((d,k)=>d.classList.toggle('on',k===i)); };
