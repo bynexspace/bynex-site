@@ -443,6 +443,17 @@
   .mob-cols a{display:block;font-weight:500;font-size:.95rem;padding:5px 0;opacity:.85}
   .menu{align-items:center}
   .mobile-menu{max-height:calc(100vh - 84px);overflow:auto;background:#0B0B10!important}
+
+  /* carrossel do time */
+  .team-car{position:relative;margin-top:10px;overflow:hidden;padding:26px 0 40px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+  .team-track{display:flex;gap:22px;width:max-content;will-change:transform}
+  .tcard{flex:0 0 236px;background:var(--paper);border-radius:16px;padding:16px 16px 20px;box-shadow:0 1px 0 rgba(0,0,0,.02);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s,opacity .45s;opacity:.92}
+  .tcard.active{transform:scale(1.07);box-shadow:0 26px 50px -24px rgba(0,0,0,.28);opacity:1}
+  .tcard .ph{position:relative;aspect-ratio:1/1.02;border-radius:10px;overflow:hidden;background:#e9e7e1}
+  .tcard img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+  .tcard h3{font-family:'Geist',sans-serif;font-size:1.02rem;font-weight:700;margin:16px 2px 6px}
+  .tcard span{display:block;font-size:.76rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink2);margin:0 2px}
+  @media (max-width:560px){.tcard{flex-basis:200px}.team-car{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}}
   /* GEO */
   .geo-hero{min-height:82vh;padding-bottom:110px}
   .geo-hero h1{font-size:clamp(2.6rem,6.4vw,5.4rem)}
@@ -1128,6 +1139,28 @@
   const mv=document.getElementById('cdpPizza'), btn=document.getElementById('cdpAr'); if(!mv) return;
   mv.addEventListener('load',()=>mv.parentElement.classList.add('loaded'));
   btn.addEventListener('click',()=>{ if (mv.canActivateAR) mv.activateAR(); else window.open('https://cardapiei.bynexspace.com.br/','_blank','noopener'); });
+})();
+</script>
+<script>
+(function(){
+  const car=document.querySelector('.team-car'); if(!car) return;
+  const track=car.querySelector('.team-track');
+  const base=[...track.children]; const n=base.length;
+  for(let k=0;k<3;k++) base.forEach(c=>{ const d=c.cloneNode(true); d.setAttribute('aria-hidden','true'); track.appendChild(d); });
+  const cards=[...track.children];
+  let x=0, paused=false, setW=0, last=performance.now();
+  const measure=()=>{ const gap=parseFloat(getComputedStyle(track).columnGap||getComputedStyle(track).gap)||0; setW=base.reduce((a,c)=>a+c.offsetWidth+gap,0); };
+  measure(); addEventListener('resize',measure);
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function mark(){ const cr=car.getBoundingClientRect(), mid=cr.left+cr.width/2; let best=null,bd=1e9;
+    cards.forEach(c=>{ const r=c.getBoundingClientRect(), d=Math.abs(r.left+r.width/2-mid); if(d<bd){bd=d;best=c;} });
+    cards.forEach(c=>c.classList.toggle('active',c===best)); }
+  function frame(now){ const dt=Math.min(now-last,50); last=now;
+    if(!paused && !still){ x-=dt*0.035; if(-x>=setW) x+=setW; track.style.transform=`translateX(${x}px)`; }
+    mark(); requestAnimationFrame(frame); }
+  if(still){ x=-(setW-car.clientWidth/2+ (base[0].offsetWidth/2)); track.style.transform=`translateX(${x}px)`; }
+  car.addEventListener('mouseenter',()=>paused=true); car.addEventListener('mouseleave',()=>paused=false);
+  requestAnimationFrame(frame);
 })();
 </script>
 <script>
