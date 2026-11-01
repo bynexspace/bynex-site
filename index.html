@@ -459,6 +459,14 @@
   .team-dots button{width:8px;height:8px;border-radius:999px;border:0;background:var(--line);cursor:pointer;padding:0;transition:all .3s}
   .team-dots button.on{width:26px;background:var(--ink)}
   @media (max-width:560px){.tcard{flex-basis:230px}}
+  /* pizza 3d */
+  .mv-wrap{position:relative;width:calc(100% + 40px);margin:0 -20px;height:270px}
+  .mv-wrap .plate{position:absolute;left:50%;top:50%;margin:-70px 0 0 -70px;transition:opacity .4s}
+  .mv-wrap model-viewer{position:absolute;inset:0;width:100%;height:100%;background:transparent;opacity:0;transition:opacity .6s}
+  .mv-wrap.loaded model-viewer{opacity:1}
+  .mv-wrap.loaded .plate{opacity:0;visibility:hidden}
+  .phone button.ar{-webkit-appearance:none;appearance:none;background:transparent;font-size:.8rem;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+  .phone button.ar:hover{background:#F7F4EC;color:#1F462E}
 </style>
 </head>
 <body>
