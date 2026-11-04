@@ -1,0 +1,16 @@
+{
+  "_como_usar": "Cada item em 'avisos' vira uma faixa no topo do site. Para não mostrar nada, deixe a lista vazia: []. Datas no formato AAAA-MM-DD. 'inicio' e 'fim' são opcionais. 'ativo': false esconde o aviso sem apagar. Campos _en e _es são opcionais (se faltar, usa o português). Para conferir antes de publicar, abra o site com ?novidades=teste no final do endereço.",
+  "_modelo": {
+    "etiqueta": "Black Friday",
+    "texto": "Escreva aqui o aviso curto",
+    "texto_en": "Short notice in English",
+    "texto_es": "Aviso corto en español",
+    "botao": "Quero aproveitar",
+    "link": "/#contato",
+    "mensagem": "Texto que já aparece preenchido no formulário",
+    "inicio": "2026-11-20",
+    "fim": "2026-11-30",
+    "ativo": true
+  },
+  "avisos": []
+}
