@@ -1463,6 +1463,7 @@ header.scrolled #bxNews{max-height:0;opacity:0}
   try{var pm=sessionStorage.getItem('bynex-news-msg');if(pm){var f=document.getElementById('msg');if(f&&!f.value)f.value=pm;sessionStorage.removeItem('bynex-news-msg')}}catch(e){}
   fetch('/novidades.json?v='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():{}}).then(function(d){
     var off=prev?[]:closed();
+    if(prev&&!(d.avisos||[]).length&&d._modelo) d.avisos=[d._modelo];
     items=(d.avisos||[]).filter(function(o){return o&&o.texto&&active(o)&&off.indexOf(id(o))<0});
     start();
   }).catch(function(){});
